@@ -4,12 +4,13 @@
   "description": "Create server using nodejs ",
   "main": "index.js",
   "scripts": {
-    "start": "node -r ./router/index.js"
+    "start": "node -r ./index.js"
   },
   "author": "Nghia Huynh",
   "license": "ISC",
   "dependencies": {
     "config": "^3.3.3",
+    "debug": "^4.3.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.11.8",

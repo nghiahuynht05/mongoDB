@@ -1,18 +1,36 @@
-var bluebird = require('bluebird');
-var mongoose = bluebird.promisifyAll(require('mongoose'));
+var bluebird = require("bluebird");
+var mongoose = bluebird.promisifyAll(require("mongoose"));
 var Schema = mongoose.Schema;
 
-var BlogSchema = new Schema({
-    title: String,
-    author: String,
-    body: String,
-    comments: [{ body: String, date: Date }],
-    hidden: Boolean,
-    date: Date,
+var BlogSchema = new Schema(
+  {
+    title: { type: String, required: true },
+    author: { type: String, default: "" },
+    body: { type: String, default: "" },
+    comments: [
+      {
+        body: { type: String, default: "" },
+        date: { type: Date, default: Date.now },
+      },
+    ],
+    hidden: { type: Boolean, default: true },
+    date: { type: Date, default: Date.now },
     meta: {
-        votes: Number,
-        favs: Number
-    }
-}, { "collection": "Blog", versionKey: false })
+      votes: Number,
+      favs: Number,
+    },
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active",
+    },
+  },
+  { collection: "Blog", versionKey: false }
+);
 
-module.exports = mongoose.model('Blog', BlogSchema)
+//a setor
+BlogSchema.path("title").set(function (inputString) {
+  return inputString[0].toUpperCase() + inputString.slice(1);
+});
+
+module.exports = mongoose.model("Blog", BlogSchema);
