@@ -1,8 +1,9 @@
 require('dotenv').config();
 var config = require("config");
-var app = require("express")();
-
-var indexRouter = require("./router/index");
+const app = require('express')();
+const express = require('express');
+var http = require("http").Server(app);
+var io = require("socket.io")(http);
 
 // database
 const mongoose = require('mongoose');
@@ -13,4 +14,17 @@ const mongoose = require('mongoose');
  */
 require('./config/mongo').configMongoDb(mongoose, config);
 
-app.set("./", indexRouter);
+/**
+ * 
+ * Connecting api
+ */
+app.use(express.static(__dirname + '/router'));
+app.listen(process.env.PORT);
+require("./router")(app, io);
+
+const async = require('async');
+async.parallel([function (callback) {
+    mongoose.connection.on('connected', function () {
+        callback()
+    })
+}])

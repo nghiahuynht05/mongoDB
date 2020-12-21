@@ -9,11 +9,13 @@
   "author": "Nghia Huynh",
   "license": "ISC",
   "dependencies": {
+    "async": "^3.2.0",
     "config": "^3.3.3",
     "debug": "^4.3.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.11.8",
+    "restify": "^8.5.1",
     "socket.io": "^3.0.4",
     "socket.io-client": "^3.0.4",
     "util": "^0.12.3"
