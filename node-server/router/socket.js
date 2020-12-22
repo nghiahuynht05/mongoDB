@@ -1,19 +1,15 @@
-var app = require("express")();
-var http = require("http");
-// var io = require("socket.io")(http);
-var port = process.env.PORT || 3000;
-var server = http.createServer(function (req, res) {
-    res.end('test');
-});
-module.exports = function (io) {
-    server.on("connection", function (socket) {
-        socket.on("chat message", function (msg) {
-            server.emit("chat message", msg);
+var app = require('express')();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
+
+module.exports = function (io, https) {
+    io.on('connection', (socket) => {
+        console.log('a user connected');
+    });
+
+    io.on('connection', function (socket) {
+        socket.on('chat message', function (msg) {
+            io.emit('chat message', msg);
         });
     });
-
-    server.listen(80, function () {
-        console.log("listening on *:" + port);
-    });
-
 }

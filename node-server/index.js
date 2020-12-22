@@ -4,6 +4,7 @@ const app = require('express')();
 const express = require('express');
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
+const async = require('async');
 
 // database
 const mongoose = require('mongoose');
@@ -19,12 +20,12 @@ require('./config/mongo').configMongoDb(mongoose, config);
  * Connecting api
  */
 app.use(express.static(__dirname + '/router'));
-app.listen(process.env.PORT);
-require("./router")(app, io);
 
-const async = require('async');
+const router = require('./router');
 async.parallel([function (callback) {
     mongoose.connection.on('connected', function () {
         callback()
     })
-}])
+}], function () {
+    router.initServer(io, http, app, config)
+})
