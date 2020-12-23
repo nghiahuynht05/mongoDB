@@ -8,14 +8,10 @@ var Blog = require("../model/schema/blogSchema");
 
 function BlogModel() { }
 
-BlogModel.prototype.save = function () {
+BlogModel.prototype.save = function (parameters) {
   return new Promise(function (resolve, reject) {
-    Blog.insertMany({
-      title: "A",
-      author: "Nghia",
-      body: "Hello",
-      hidden: true,
-    }, function (error, res) {
+    parameters = parameters || {};
+    Blog.insertMany(parameters, function (error, res) {
       if (!error) {
         resolve(res)
       } else {

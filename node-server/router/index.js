@@ -14,7 +14,9 @@ util.inherits(Router, EventEmitter);
 exports.initServer = function (io, https, app, config) {
   blog(app);
   socket(io, https);
+
   async.parallel([], function () {
+    io.router = new Router(io, config);
     var port = process.env.PORT
     function startServer() {
       https.listen(port, function () {
