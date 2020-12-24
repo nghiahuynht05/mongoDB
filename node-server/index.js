@@ -6,6 +6,7 @@ var http = require("http").Server(app);
 var io = require("socket.io")(http);
 const async = require('async');
 var bodyParser = require('body-parser');
+var validation = require('.//middleware/validation/user');
 
 // database
 const mongoose = require('mongoose');

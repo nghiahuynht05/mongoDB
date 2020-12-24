@@ -16,6 +16,7 @@
     "dotenv": "^8.2.0",
     "events": "^3.2.0",
     "express": "^4.17.1",
+    "joi": "^17.3.0",
     "mongoose": "^5.11.8",
     "restify": "^8.5.1",
     "socket.io": "^3.0.4",

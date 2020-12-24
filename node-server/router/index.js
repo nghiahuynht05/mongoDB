@@ -3,7 +3,8 @@ const util = require('util');
 const async = require('async');
 
 var blog = require('./blog')
-var socket = require('./socket');
+var socket = require('../controller/socket');
+var user = require('./user')
 
 function Router(io, config) {
   this.io = io;
@@ -14,7 +15,8 @@ util.inherits(Router, EventEmitter);
 exports.initServer = function (io, https, app, config) {
   blog(app);
   socket(io, https);
-
+  user(app);
+  
   async.parallel([], function () {
     io.router = new Router(io, config);
     var port = process.env.PORT

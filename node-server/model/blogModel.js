@@ -1,5 +1,3 @@
-const { fromCallback, resolve } = require("bluebird");
-var mongoose = require("mongoose");
 var debug = require('debug');
 var debuglog = debug('BlogModel:*');
 var Promise = require('bluebird');

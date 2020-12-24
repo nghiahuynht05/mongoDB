@@ -7,8 +7,6 @@ var api = {
 module.exports = function (app) {
     app.post(api.add, function (req, res, next) {
         req.body = req.body || {};
-        console.log(req.body)
-        console.log(req.body)
         var blog = new blogModel();
         blog.save(req.body).then(function (info) {
             res.send({ response: info, returnCode: 200 })

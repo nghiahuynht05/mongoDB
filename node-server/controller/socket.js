@@ -1,10 +1,12 @@
 var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+var debug = require('debug')
+var debuglog = debug('SOCKET:*');
 
 module.exports = function (io, https) {
     io.on('connection', (socket) => {
-        console.log('a user connected');
+        debuglog("SUCCES", "SOCKET CONNECT", "error", null);
     });
 
     io.on('connection', function (socket) {
