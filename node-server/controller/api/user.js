@@ -1,5 +1,5 @@
-var user = require('../model/userModel');
-var ErrorCode = require('../config/errorCode');
+var user = require('../../model/userModel');
+var ErrorCode = require('../../config/errorCode');
 
 module.exports = function (app) {
     var api = {

@@ -1,4 +1,4 @@
-var blogModel = require('../model/blogModel')
+var blogModel = require('../../model/blogModel')
 
 var api = {
     "add": "/api/blog/add"

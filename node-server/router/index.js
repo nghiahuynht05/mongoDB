@@ -2,9 +2,9 @@ const EventEmitter = require('events').EventEmitter;
 const util = require('util');
 const async = require('async');
 
-var blog = require('./blog')
-var socket = require('../controller/socket');
-var user = require('./user')
+var blog = require('../controller/api/blog')
+var socket = require('../controller/socket/socket');
+var user = require('../controller/api/user')
 
 function Router(io, config) {
   this.io = io;
