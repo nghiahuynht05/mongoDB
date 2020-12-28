@@ -16,6 +16,9 @@ var UserSchema = new Schema({
     email: {
         type: String
     },
+    password: {
+        type: String
+    },
     isActive: {
         type: Boolean,
         default: true
