@@ -46,4 +46,17 @@ UserCtrl.prototype.login = function (parameter) {
     })
 }
 
+UserCtrl.prototype.update = function (parameter) {
+    parameter = parameter || {};
+    var userModel = new UserModel();
+    var query = { userName: parameter.userName }
+    return Promise.all([userModel.findOne(query)]).spread(function (foundUser) {
+        if (!foundUser) {
+            return Promise.reject({ errorCode: ERROR_CODE.USER_NOTFOUND, message: "User not found." })
+        }
+        var conditions = _.pick(parameter, ['userName']);
+        var update = _.pick(parameter, ['firstName', 'lastName', 'email']);
+        return userModel.update(conditions, update);
+    })
+}
 module.exports = UserCtrl

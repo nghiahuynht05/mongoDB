@@ -4,6 +4,7 @@ var Promise = require('bluebird');
 
 const UserSchema = require('./schema/userSchema');
 var ERROR_CODE = require('../config/errorCode');
+const userSchema = require('./schema/userSchema');
 function UserModel() { }
 
 UserModel.prototype.createUser = function (parameters) {
@@ -16,7 +17,7 @@ UserModel.prototype.createUser = function (parameters) {
             if (!error) {
                 resolve({ userName: res[0].userName, firstName: res[0].firstName, lastName: res[0].lastName })
             } else {
-                debuglog("ERROR", "UserSchema.insertMany", "error", null, "import Error: " + error.code);
+                debuglog("ERROR", "UserSchema.insertMany", "error", "import Error: " + error.code);
                 reject(error)
             }
         });
@@ -25,27 +26,37 @@ UserModel.prototype.createUser = function (parameters) {
 
 UserModel.prototype.findOne = function (parameters) {
     return UserSchema.findOne(parameters).then(function (user) {
-        debuglog("DEBUG", "UserSchema.findOne", "user details", user, null);
+        debuglog("DEBUG", "UserSchema.findOne", "user details", JSON.stringify(user));
         return user;
     }).catch(function (error) {
-        debuglog("ERROR", "UserSchema.findOne", "error", null, error);
+        debuglog("ERROR", "UserSchema.findOne", "error", error);
         throw error;
     })
 }
 
 UserModel.prototype.login = function (parameters) {
     return UserSchema.findOne({ userName: parameters.userName }).then(function (infoUser) {
+        debuglog("DEBUG", "UserSchema.findOne", "user details", JSON.stringify(infoUser));
         if (!infoUser.isActive) {
             return Promise.reject({ errorCode: ERROR_CODE.isACTIVE, message: "User is deactive." })
         }
         if (infoUser.password != parameters.password) {
             return Promise.reject({ errorCode: ERROR_CODE.WORNG_PASSWORD, message: "Password incorrect." })
         }
-        return ERROR_CODE.SUCCESS;
+        return infoUser;
     }).catch(function (error) {
-        debuglog("ERROR", "UserSchema.findOne", "error", null, error);
+        debuglog("ERROR", "UserSchema.findOne", "error", error);
         throw error;
     })
 }
 
+UserModel.prototype.update = function (conditions, update) {
+    var updateInfo = { $set: update }
+    return UserSchema.findOneAndUpdate(conditions, updateInfo).then(function (userInfo) {
+        return userSchema.findOne(conditions);
+    }).catch(function (error) {
+        debuglog("ERROR", "UserSchema.findOneAndUpdate", "error", error);
+        throw error;
+    })
+}
 module.exports = UserModel
