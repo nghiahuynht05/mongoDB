@@ -12,7 +12,7 @@ setDefaultTimeout(10000)
 var World = function World(){
     this.connection_string = connection_string;
     this.connection_options = connection_options;
-
+    this.urlClient = process.env.LOCAL_BDD_HOST;
 }
 
 setWorldConstructor(World)
