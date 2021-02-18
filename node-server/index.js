@@ -6,7 +6,7 @@ var http = require("http").Server(app);
 var io = require("socket.io")(http);
 const async = require('async');
 var bodyParser = require('body-parser');
-var validation = require('.//middleware/validation/user');
+var joi = require('./middleware/validation/joi');
 
 // database
 const mongoose = require('mongoose');
@@ -29,7 +29,7 @@ app.use(express.static(__dirname + '/router'));
  */
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.use(joi)
 const router = require('./router');
 async.parallel([function (callback) {
     mongoose.connection.on('connected', function () {
