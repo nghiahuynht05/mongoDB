@@ -1,8 +1,10 @@
-{
+const { model } = require("mongoose");
+
+module.exports = {
     "dbConfig": {
         "adapter": "mongodb",
         "mongoDb": {
-            "host": "mongodb://localhost:27017/admin?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false&connectTimeoutMS=30000&socketTimeouMS=30000",
+            "host": `mongodb://${process.env.BDD_MONGO_HOST}/${process.env.BDD_MONGO_DB}?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false&connectTimeoutMS=30000&socketTimeouMS=30000`,
             "options": {
                 "useNewUrlParser": true,
                 "useUnifiedTopology": true,
