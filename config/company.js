@@ -18,10 +18,10 @@ module.exports = {
             "password": "qgs@123"
         },
         "mysql": {
-            "host": "localhost",
-            "database": "qupworldLab",
-            "user": "root",
-            "password": "root"
+            "host": process.env.BDD_MYSQL_HOST,
+            "user": process.env.BDD_MYSQL_USER,
+            "password": process.env.BDD_MYSQL_PASSWORD,
+            "database": process.env.BDD_MYSQL_DATABASE
         },
         "redisMapProvider": {
             "server": "localhost",

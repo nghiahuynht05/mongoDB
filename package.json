@@ -17,6 +17,9 @@
     "dotenv": "^8.2.0",
     "lodash": "^4.17.20",
     "mongoose": "^5.11.8",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.5.0",
     "socket.io-client": "^3.0.4"
   },
   "devDependencies": {

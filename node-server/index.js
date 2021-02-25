@@ -4,6 +4,7 @@ const app = require('express')();
 const express = require('express');
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
+var mysql = require('mysql');
 const async = require('async');
 var bodyParser = require('body-parser');
 var joi = require('./middleware/validation/joi');
@@ -16,6 +17,8 @@ const mongoose = require('mongoose');
  *
  */
 require('./config/mongo').configMongoDb(mongoose, config);
+
+require('./config/mysql').configMySQL(config)
 
 /**
  * 

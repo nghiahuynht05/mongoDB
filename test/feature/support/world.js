@@ -1,10 +1,12 @@
 var config = require('config');
+var mysql = require('mysql');
+var mongoose = require('mongoose');
 
-var connection_string = config.get('dbConfig.mongoDb.host')
-var connection_options = config.get('dbConfig.mongoDb.options')
-var mongoose = require('mongoose')
+var connection_string = config.get('dbConfig.mongoDb.host');
+var connection_options = config.get('dbConfig.mongoDb.options');
+var connection_options_mysql = config.get('dbConfig.mysql');
 
-mongoose.set('debug', process.env.BDD_MONGO_DEBUG === "yes")
+mongoose.set('debug', process.env.BDD_MONGO_DEBUG === "yes");
 
 var { setWorldConstructor, setDefaultTimeout } = require('cucumber');
 setDefaultTimeout(10000)
@@ -13,6 +15,7 @@ var World = function World() {
     this.connection_string = connection_string;
     this.connection_options = connection_options;
     this.urlClient = process.env.LOCAL_BDD_HOST;
+    this.mySQL = mysql.createConnection(connection_options_mysql);
 
     this.matchData = function (data, expect) {
         var self = this;
@@ -23,7 +26,7 @@ var World = function World() {
                 })
             })
         } else {
-            return _.isMatchWith(data, expect, matchFn)
+            return _.isMatchWith(data, expect, matchFn);
         }
     }
 
@@ -34,13 +37,13 @@ var World = function World() {
                 return self.matchDataWithTheSameOrder(data[index], item);
             })
         } else {
-            return _.isMatchWith(data, expect, matchWithOrderFn)
+            return _.isMatchWith(data, expect, matchWithOrderFn);
         }
     }
 
     function matchWithOrderFn(obj, src) {
         if (!_.isObject(obj)) {
-            return obj === src
+            return obj === src;
         }
         if (_.isArray(src) && _.isArray(obj)) {
             return src.every(function (item, index) {

@@ -21,6 +21,7 @@
     "grant": "^5.4.9",
     "joi": "^17.4.0",
     "mongoose": "^5.11.8",
+    "mysql": "^2.18.1",
     "restify": "^8.5.1",
     "socket.io": "^3.0.4",
     "socket.io-client": "^3.0.4",

@@ -16,10 +16,10 @@
             "password": "qgs@123"
         },
         "mysql": {
-            "host": "localhost",
-            "database": "qupworldLab",
+            "host": "127.0.0.1",
             "user": "root",
-            "password": "root"
+            "password": "test",
+            "database":"nghiahuynh"
         },
         "redisMapProvider": {
             "server": "localhost",
