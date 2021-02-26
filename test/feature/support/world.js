@@ -1,20 +1,27 @@
 var config = require('config');
 var mysql = require('mysql');
 var mongoose = require('mongoose');
+var socket = require('socket.io-client');
+var request = require('supertest');
 
 var connection_string = config.get('dbConfig.mongoDb.host');
 var connection_options = config.get('dbConfig.mongoDb.options');
 var connection_options_mysql = config.get('dbConfig.mysql');
-
+var socket_options = {
+    'force new connection': true,
+    reconnect: true
+}
 mongoose.set('debug', process.env.BDD_MONGO_DEBUG === "yes");
 
 var { setWorldConstructor, setDefaultTimeout } = require('cucumber');
 setDefaultTimeout(10000)
 
 var World = function World() {
+    this.storage = {}
     this.connection_string = connection_string;
     this.connection_options = connection_options;
-    this.urlClient = process.env.LOCAL_BDD_HOST;
+    this.urlClient = request(process.env.BDD_HOST);
+    this.wsClient = socket(process.env.BDD_HOST, socket_options);
     this.mySQL = mysql.createConnection(connection_options_mysql);
 
     this.matchData = function (data, expect) {

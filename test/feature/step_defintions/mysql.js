@@ -3,8 +3,8 @@ const sequelize = require('../../../config/sequelize');
 var Users = require('./input/table/User');
 
 Given('MySQL is connected', function (callback) {
-    var left = this;
-    left.mySQL.connect(function (err) {
+    var self = this;
+    self.mySQL.connect(function (err) {
         if (err) {
             callback(err);
         }
