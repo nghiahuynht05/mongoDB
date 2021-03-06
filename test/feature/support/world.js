@@ -1,4 +1,5 @@
 var config = require('config');
+var request = require('supertest');
 
 var connection_string = config.get('dbConfig.mongoDb.host')
 var connection_options = config.get('dbConfig.mongoDb.options')
@@ -13,6 +14,7 @@ var World = function World() {
     this.connection_string = connection_string;
     this.connection_options = connection_options;
     this.urlClient = process.env.LOCAL_BDD_HOST;
+    this.apiClient = request(this.urlClient);
 
     this.matchData = function (data, expect) {
         var self = this;
