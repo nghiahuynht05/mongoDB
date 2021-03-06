@@ -17,6 +17,12 @@
     "dotenv": "^8.2.0",
     "lodash": "^4.17.20",
     "mongoose": "^5.11.8",
+<<<<<<< HEAD
+=======
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.5.0",
+>>>>>>> 1d67a6888aea4e66dacbce0c2bb1492b41dbc8d9
     "socket.io-client": "^3.0.4",
     "supertest": "^6.1.3"
   },
