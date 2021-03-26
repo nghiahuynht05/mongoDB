@@ -8,6 +8,7 @@ var mysql = require('mysql');
 const async = require('async');
 var bodyParser = require('body-parser');
 var joi = require('./middleware/validation/joi');
+const cors = require('cors');
 
 // database
 const mongoose = require('mongoose');
@@ -33,6 +34,20 @@ app.use(express.static(__dirname + '/router'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(joi)
+
+/**
+ * 
+ * Config CORS
+ */
+const corsOptions = {
+    origins: ['*'],
+    allowHeaders: ['Authorization', 'Content-Type', 'x-request-id'],
+    methods: "GET,POST,PUT",
+    preflightContinue: false
+};
+
+app.use(cors(corsOptions));
+
 const router = require('./router');
 async.parallel([function (callback) {
     mongoose.connection.on('connected', function () {
