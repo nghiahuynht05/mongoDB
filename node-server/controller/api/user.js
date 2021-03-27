@@ -10,7 +10,7 @@ module.exports = function (app) {
     }
     app.post(api.add, function (req, res) {
         req.body = req.body || {};
-        var User = new user()
+        var User = new user();
         User.create(req.body).then(function (info) {
             res.send({ response: info, returnCode: ErrorCode.SUCCESS });
         }).catch(function (error) {
@@ -22,13 +22,14 @@ module.exports = function (app) {
         req.body = req.body || {};
         var User = new user()
         User.login(req.body).then(function (info) {
-            req.session.user = info;
-            req.session.create(function (error, token) {
-                res.send({ response: token, user: info, returnCode: ErrorCode.SUCCESS });
-            })
+            res.send({ response: info, returnCode: ErrorCode.SUCCESS, error: {} });
+            // req.session.user = info;
+            // req.session.create(function (error, token) {
+            //     res.send({ response: token, user: info, returnCode: ErrorCode.SUCCESS, error: {} });
+            // })
             next();
         }).catch(function (error) {
-            res.send({ response: error, returnCode: ErrorCode.ERROR })
+            res.send({ response: {}, returnCode: ErrorCode.ERROR, error })
         });
     });
 
@@ -45,9 +46,9 @@ module.exports = function (app) {
     app.post(api.update, function (req, res) {
         var User = new user();
         User.update(req.body).then(function (info) {
-            res.send({ response: info, returnCode: ErrorCode.SUCCESS });
+            res.send({ response: info, returnCode: ErrorCode.SUCCESS, error: {} });
         }).catch(function (error) {
-            res.send({ response: error, returnCode: ErrorCode.ERROR })
+            res.send({ response: {}, returnCode: ErrorCode.ERROR, error })
         })
     })
 }

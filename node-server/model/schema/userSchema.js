@@ -19,6 +19,9 @@ var UserSchema = new Schema({
     password: {
         type: String
     },
+    token: {
+        type: String
+    },
     isActive: {
         type: Boolean,
         default: true

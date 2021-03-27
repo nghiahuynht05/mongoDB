@@ -1,10 +1,10 @@
 var debug = require('debug');
 var debuglog = debug('UserModel:*');
 var Promise = require('bluebird');
+const jwt = require('jsonwebtoken');
 
 const UserSchema = require('./schema/userSchema');
 var ERROR_CODE = require('../config/errorCode');
-const userSchema = require('./schema/userSchema');
 function UserModel() { }
 
 UserModel.prototype.createUser = function (parameters) {
@@ -40,10 +40,19 @@ UserModel.prototype.login = function (parameters) {
         if (!infoUser.isActive) {
             return Promise.reject({ errorCode: ERROR_CODE.isACTIVE, message: "User is deactive." })
         }
-        if (infoUser.password != parameters.password) {
+        if (infoUser.password !== parameters.password) {
             return Promise.reject({ errorCode: ERROR_CODE.WORNG_PASSWORD, message: "Password incorrect." })
         }
-        return infoUser;
+        var token = generateAuthToken(infoUser._id);
+        try {
+            return Promise.all([UserSchema.findOneAndUpdate({ _id: infoUser._id }, { $set: { token: token } })]).spread(function (res) {
+                debuglog("DEBUG", "UserSchema.findOnAndUpdate", "respone", JSON.stringify(res));
+                return res;
+            });
+        } catch (error) {
+            debuglog("ERROR", "UserSchema.findOne", "error", error);
+            throw error;
+        }
     }).catch(function (error) {
         debuglog("ERROR", "UserSchema.findOne", "error", error);
         throw error;
@@ -53,10 +62,14 @@ UserModel.prototype.login = function (parameters) {
 UserModel.prototype.update = function (conditions, update) {
     var updateInfo = { $set: update }
     return UserSchema.findOneAndUpdate(conditions, updateInfo).then(function (userInfo) {
-        return userSchema.findOne(conditions);
+        return UserSchema.findOne(conditions);
     }).catch(function (error) {
         debuglog("ERROR", "UserSchema.findOneAndUpdate", "error", error);
         throw error;
     })
+}
+
+function generateAuthToken(params) {
+    return jwt.sign({ _id: params }, process.env.JWT_KEY);
 }
 module.exports = UserModel
