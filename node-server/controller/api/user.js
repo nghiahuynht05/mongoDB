@@ -1,5 +1,6 @@
 var user = require('../user');
 var ErrorCode = require('../../config/errorCode');
+var author = require('../../middleware/auth');
 
 module.exports = function (app) {
     var api = {
@@ -43,7 +44,7 @@ module.exports = function (app) {
         }
     });
 
-    app.post(api.update, function (req, res) {
+    app.post(api.update, author, function (req, res) {
         var User = new user();
         User.update(req.body).then(function (info) {
             res.send({ response: info, returnCode: ErrorCode.SUCCESS, error: {} });

@@ -47,7 +47,7 @@ UserModel.prototype.login = function (parameters) {
         try {
             return Promise.all([UserSchema.findOneAndUpdate({ _id: infoUser._id }, { $set: { token: token } })]).spread(function (res) {
                 debuglog("DEBUG", "UserSchema.findOnAndUpdate", "respone", JSON.stringify(res));
-                return res;
+                return UserSchema.findOne({ userName: parameters.userName });
             });
         } catch (error) {
             debuglog("ERROR", "UserSchema.findOne", "error", error);
