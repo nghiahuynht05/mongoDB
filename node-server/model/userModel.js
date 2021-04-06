@@ -70,6 +70,6 @@ UserModel.prototype.update = function (conditions, update) {
 }
 
 function generateAuthToken(params) {
-    return jwt.sign({ _id: params }, process.env.JWT_KEY);
+    return jwt.sign({ _id: params }, process.env.JWT_KEY, { expiresIn: "60000ms" });
 }
 module.exports = UserModel
