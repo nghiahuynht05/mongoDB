@@ -7,7 +7,8 @@ module.exports = function (app) {
         "add": "/api/user/add",
         "login": "/api/user/login",
         "logout": "/api/user/logout",
-        "update": "/api/user/update"
+        "update": "/api/user/update",
+        "forgot": "/api/user/forgot"
     }
     app.post(api.add, function (req, res) {
         req.body = req.body || {};
@@ -49,7 +50,16 @@ module.exports = function (app) {
         User.update(req.body).then(function (info) {
             res.send({ response: info, returnCode: ErrorCode.SUCCESS, error: {} });
         }).catch(function (error) {
-            res.send({ response: {}, returnCode: ErrorCode.ERROR, error })
-        })
-    })
+            res.send({ response: {}, returnCode: ErrorCode.ERROR, error });
+        });
+    });
+
+    app.post(api.forgot, author, function (req, res) {
+        var User = new user();
+        User.forgot(req.body).then(function (info) {
+            res.send({ response: info, returnCode: ErrorCode.SUCCESS, error: {} });
+        }).catch(function (error) {
+            res.send({ response: {}, returnCode: ErrorCode.ERROR, error });
+        });
+    });
 }

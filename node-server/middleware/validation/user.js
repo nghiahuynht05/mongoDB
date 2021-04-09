@@ -14,6 +14,9 @@ module.exports = {
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         email: Joi.string().required(),
+    }),
+    '/api/user/forgot': Joi.object({
+        userName: Joi.string().required(),
+        email: Joi.string().required(),
     })
-
 }

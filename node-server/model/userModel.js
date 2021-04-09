@@ -43,7 +43,7 @@ class UserModel {
             if (infoUser.password !== parameters.password) {
                 return Promise.reject({ errorCode: ERROR_CODE.WORNG_PASSWORD, message: "Password incorrect." });
             }
-            var token = generateAuthToken(infoUser._id);
+            var token = this.generateAuthToken(infoUser._id);
             try {
                 return Promise.all([UserSchema.findOneAndUpdate({ _id: infoUser._id }, { $set: { token: token } })]).spread(function (res) {
                     debuglog("DEBUG", "UserSchema.findOnAndUpdate", "respone", JSON.stringify(res));
@@ -68,9 +68,9 @@ class UserModel {
             throw error;
         }
     }
+    generateAuthToken(params) {
+        return jwt.sign({ _id: params }, process.env.JWT_KEY, { expiresIn: "60000ms" });
+    }
 }
 
-function generateAuthToken(params) {
-    return jwt.sign({ _id: params }, process.env.JWT_KEY, { expiresIn: "60000ms" });
-}
 module.exports = UserModel
